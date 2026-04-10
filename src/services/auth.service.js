@@ -15,9 +15,18 @@ export async function loginTelegram() {
             async: false
         });
 
-        return JSON.parse(result.responseBody);
+        const raw = result.responseBody;
+        if (raw == null || raw === "") {
+            return { success: false, message: "Máy chủ không trả dữ liệu" };
+        }
 
-    } catch (err) {
+        try {
+            return JSON.parse(raw);
+        } catch {
+            return { success: false, message: "Phản hồi máy chủ không hợp lệ" };
+        }
+
+    } catch {
 
         return {
             success: false,

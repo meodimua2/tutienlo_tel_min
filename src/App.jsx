@@ -1,111 +1,43 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { AnimatePresence } from "framer-motion";
+import { Suspense, lazy } from "react";
 
-import IntroScreen from "./pages/onboarding/Intro1";
-import Intro2 from "./pages/onboarding/Intro2";
+import MainLayout from "./layouts/MainLayout";
 
-import MainLayout from "./components/MainLayout";
-
-import Home from "./pages/Home";
-import Achievement from "./pages/Achievement";
-import Profile from "./pages/Profile";
-
-import PageTransition from "./components/PageTransition";
-import Boot from "./pages/Boot";
+const Boot = lazy(() => import("./pages/Boot"));
+const Home = lazy(() => import("./pages/Home"));
+const Tournaments = lazy(() => import("./pages/Tournaments"));
+const Rankings = lazy(() => import("./pages/Rankings"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 function PageWrapper({ children }) {
-  return <PageTransition>{children}</PageTransition>;
+  return <>{children}</>;
 }
 
 function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+    <Suspense fallback={<div className="h-full bg-black" />}>
+        <Routes location={location} key={location.pathname}>
+          
+          <Route path="/" element={<Boot />} />
 
-        {/* Boot (entry point) */}
-        <Route path="/" element={<Boot />} />
+          <Route path="/tabs" element={<MainLayout />}>
+            <Route index element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="giai-dau" element={<PageWrapper><Tournaments /></PageWrapper>} />
+            <Route path="bxh" element={<PageWrapper><Rankings /></PageWrapper>} />
+            <Route path="profile" element={<PageWrapper><Profile /></PageWrapper>} />
+          </Route>
 
-        {/* Onboarding */}
-        <Route
-          path="/intro"
-          element={
-            <PageWrapper>
-              <IntroScreen />
-            </PageWrapper>
-          }
-        />
-
-        <Route
-          path="/intro2"
-          element={
-            <PageWrapper>
-              <Intro2 />
-            </PageWrapper>
-          }
-        />
-
-        {/* Main App */}
-        <Route element={<MainLayout />}>
-
-          <Route
-            path="/tabs"
-            element={
-              <PageWrapper>
-                <Home />
-              </PageWrapper>
-            }
-          />
-
-          <Route
-            path="/tabs/achievement"
-            element={
-              <PageWrapper>
-                <Achievement />
-              </PageWrapper>
-            }
-          />
-
-          <Route
-            path="/tabs/profile"
-            element={
-              <PageWrapper>
-                <Profile />
-              </PageWrapper>
-            }
-          />
-
-        </Route>
-
-      </Routes>
-    </AnimatePresence>
+        </Routes>
+    </Suspense>
   );
 }
 
 function App() {
-
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-
-    if (!tg) return;
-
-    tg.ready();
-    tg.expand();
-
-    if (tg.requestFullscreen) {
-      tg.requestFullscreen();
-    }
-
-    tg.setHeaderColor("#000000");
-    tg.setBackgroundColor("#000000");
-
-  }, []);
-
   return (
     <BrowserRouter>
-      <div className="h-[100dvh] w-full overflow-hidden bg-black">
+      <div className="h-[100dvh] w-full overflow-hidden bg-slate-950">
         <AnimatedRoutes />
       </div>
     </BrowserRouter>

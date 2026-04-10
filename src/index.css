@@ -1,94 +1,83 @@
 @import "tailwindcss";
 
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* reset toàn bộ layout */
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  background: #020617;
-  overflow: hidden;
-}
-
-/* root config */
 :root {
   --color-tma-blue: #3b82f6;
   --color-tma-dark: #020617;
-  --animate-float: float 3s ease-in-out infinite;
+  
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --vv-bottom-inset: 0px;
+  --app-bottom-inset: max(var(--safe-bottom), var(--vv-bottom-inset));
 
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   scroll-behavior: smooth;
   text-rendering: optimizeLegibility;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  overscroll-behavior: none;
 }
 
-/* body */
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--color-tma-dark);
-  color: white;
-  overflow-x: hidden;
-}
-
-/* scrollbar */
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: #020617;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
-}
-
-/* glass effect */
-.glass-effect {
-  backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* màn intro full màn hình Telegram */
-.intro-container {
-  position: fixed;
-
-  top: 0;
-  left: 0;
-
-  width: 100vw;
-  height: 100dvh;
-  /* QUAN TRỌNG cho Telegram */
-
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
+  height: 100dvh; 
+  width: 100%;
+  background-color: var(--color-tma-dark);
+  color: white;
+  overflow: hidden; 
+}
 
+* {
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none; 
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform; 
+}
+
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.intro-container {
+  position: fixed;
+  inset: 0; 
+  width: 100vw;
+  height: 100dvh;
+  z-index: 100;
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+button, 
+.interactive {
+  user-select: none; 
+  -webkit-tap-highlight-color: transparent; 
+  transition: transform 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.96);
 }

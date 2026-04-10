@@ -1,43 +1,24 @@
-import { useEffect, useState, useCallback, useRef } from "react";
-import { loginTelegram } from "../services/auth.service";
+import { useEffect, useState } from "react";
 
-export function useTelegramAuth() {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    const called = useRef(false);
-
-    const authenticate = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const res = await loginTelegram();
-
-            if (res?.success) {
-                setUser(res.user);
-            } else {
-                setError(res?.message || "Xác thực thất bại");
-            }
-        } catch {
-            setError("Không thể kết nối tới máy chủ.");
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+export default function useTelegram() {
+    const [tg, setTg] = useState(null);
 
     useEffect(() => {
-        if (called.current) return;
-        called.current = true;
+        const webApp = window.Telegram?.WebApp;
+        if (!webApp) return;
 
-        authenticate();
-    }, [authenticate]);
+        webApp.ready();
+        webApp.expand();
 
-    return {
-        user,
-        loading,
-        error,
-        retry: authenticate
-    };
+        if (webApp.requestFullscreen) {
+            webApp.requestFullscreen();
+        }
+
+        webApp.setHeaderColor("#000000"); 
+        webApp.setBackgroundColor("#000000");
+
+        setTg(webApp);
+    }, []);
+
+    return tg;
 }
