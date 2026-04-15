@@ -3,31 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 
 export default function Boot() {
-
     const { user, loading, error, retry } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (loading) return;
 
-        if (!user) {
-            return;
+        if (user) {
+            navigate("/tabs/home", { replace: true });
         }
-        
-        if (!user.onboarded) {
-            navigate("/intro", { replace: true });
-        } else {
-            navigate("/tabs", { replace: true });
-        }
-
     }, [user, loading, navigate]);
 
     if (loading) {
         return (
             <div className="flex h-[100dvh] items-center justify-center bg-slate-950 text-white">
-                <p className="text-xs tracking-[0.3em] text-white/40">
-                    Đang tải trận đấu...
-                </p>
+                <div className="flex flex-col items-center gap-4">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+                    <p className="text-[10px] tracking-[0.3em] text-white/40 uppercase">
+                        Đang chuẩn bị sân đấu...
+                    </p>
+                </div>
             </div>
         );
     }
@@ -35,13 +30,13 @@ export default function Boot() {
     if (!user) {
         return (
             <div className="flex h-[100dvh] flex-col items-center justify-center gap-6 bg-slate-950 px-8 text-center text-white">
-                <p className="text-sm text-white/70">
-                    {error || "Không xác thực được. Mở mini app trong Telegram và thử lại."}
+                <p className="text-sm text-white/60 leading-relaxed">
+                    {error || "Môi trường không hợp lệ. Vui lòng truy cập từ Telegram."}
                 </p>
                 <button
                     type="button"
                     onClick={() => retry()}
-                    className="rounded-full border border-white/25 px-8 py-3 text-[11px] font-bold tracking-[0.2em] text-white/90 transition hover:border-white/50 active:scale-95"
+                    className="rounded-full border border-white/20 bg-white/5 px-10 py-3 text-[11px] font-bold tracking-[0.2em] text-white transition hover:bg-white/10 active:scale-95"
                 >
                     THỬ LẠI
                 </button>
@@ -49,9 +44,5 @@ export default function Boot() {
         );
     }
 
-    return (
-        <div className="flex h-[100dvh] items-center justify-center bg-slate-950 text-white">
-            <p className="text-xs tracking-[0.3em] text-white/40">Đang vào trận...</p>
-        </div>
-    );
+    return null;
 }

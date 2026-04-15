@@ -1,3 +1,4 @@
+// Chịu trách nhiệm gọi tới Appwrite Function và nhận về toàn bộ gói dữ liệu (Token, User, isLinked).
 import { functions } from "../lib/appwrite";
 import { getInitData } from "../lib/telegram";
 
@@ -5,32 +6,26 @@ export async function loginTelegram() {
     const initData = getInitData();
 
     if (!initData) {
-        return { success: false, message: "Không có initData" };
+        return { success: false, message: "Không tìm thấy dữ liệu Telegram" };
     }
 
     try {
-        const result = await functions.createExecution({
-            functionId: import.meta.env.VITE_APPWRITE_FUNCTION_ID,
-            body: JSON.stringify({ initData }),
-            async: false
-        });
+        const result = await functions.createExecution(
+            import.meta.env.VITE_APPWRITE_FUNCTION_ID,
+            JSON.stringify({ 
+                action: 'auth', 
+                initData 
+            }),
+            false
+        );
 
-        const raw = result.responseBody;
-        if (raw == null || raw === "") {
-            return { success: false, message: "Máy chủ không trả dữ liệu" };
+        if (!result.responseBody) {
+            return { success: false, message: "Server không phản hồi" };
         }
 
-        try {
-            return JSON.parse(raw);
-        } catch {
-            return { success: false, message: "Phản hồi máy chủ không hợp lệ" };
-        }
-
-    } catch {
-
-        return {
-            success: false,
-            message: "Không gọi được Appwrite Function"
-        };
+        return JSON.parse(result.responseBody);
+    } catch (error) {
+        console.error("Login Error:", error);
+        return { success: false, message: "Lỗi kết nối Appwrite" };
     }
 }

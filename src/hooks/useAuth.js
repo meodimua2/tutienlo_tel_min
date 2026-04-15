@@ -5,48 +5,34 @@ export function useTeleAuth() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const called = useRef(false);
 
     const authenticate = useCallback(async () => {
         setLoading(true);
-        setError(null);
-
         try {
             const res = await loginTelegram();
 
             if (res?.success) {
-                const normalizedUser = res.user ?? {
-                    $id: res.telegramId,
-                    telegramId: res.telegramId,
-                    status: res.status,
-                    balanceTrx: res.balanceTrx ?? 0,
-                    token: res.token,
-                    displayName: `User ${res.telegramId ?? ""}`,
-                    onboarded: true
-                };
-                setUser(normalizedUser);
+                if (res.token) {
+                    localStorage.setItem('jwt_token', res.token);
+                }
+                setUser(res); 
             } else {
                 setError(res?.message || "Xác thực thất bại");
             }
-        } catch {
-            setError("Không thể kết nối tới máy chủ.");
+        } catch (err) {
+            setError("Lỗi hệ thống");
         } finally {
             setLoading(false);
         }
     }, []);
 
     useEffect(() => {
-        if (called.current) return;
-        called.current = true;
-
-        authenticate();
+        if (!called.current) {
+            called.current = true;
+            authenticate();
+        }
     }, [authenticate]);
 
-    return {
-        user,
-        loading,
-        error,
-        retry: authenticate
-    };
+    return { user, loading, error, retry: authenticate };
 }
