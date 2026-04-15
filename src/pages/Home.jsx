@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { Trophy } from "lucide-react";
 import RiotIdSheet from '../components/RiotIdSheet';
+import PageLayout from "../components/ui/PageLayout";
 
 export default function Home() {
     const { user, loading } = useUser();
@@ -18,7 +19,7 @@ export default function Home() {
     if (loading) return null;
 
     return (
-        <div className="p-4 space-y-5">
+        <PageLayout className="p-4">
             <RiotIdSheet 
                 isOpen={showSheet} 
                 onClose={() => setShowSheet(false)} 
@@ -43,6 +44,6 @@ export default function Home() {
             </div>
 
             {/* Các nội dung khác của trang Home... */}
-        </div>
+        </PageLayout>
     );
 }

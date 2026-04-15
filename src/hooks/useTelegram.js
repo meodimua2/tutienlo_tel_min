@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function useTelegram() {
-    const [tg, setTg] = useState(null);
+    const tgRef = useRef(null);
 
     useEffect(() => {
         const webApp = window.Telegram?.WebApp;
@@ -17,8 +17,6 @@ export default function useTelegram() {
         webApp.setHeaderColor("#000000"); 
         webApp.setBackgroundColor("#000000");
 
-        setTg(webApp);
+        tgRef.current = webApp;
     }, []);
-
-    return tg;
 }

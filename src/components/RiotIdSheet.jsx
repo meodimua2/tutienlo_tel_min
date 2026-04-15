@@ -1,57 +1,46 @@
 import React, { useState } from 'react';
-import { linkRiotAccount } from '../services/tft.service'; //
+import { createPortal } from 'react-dom';
+import { linkRiotAccount } from '../services/tft.service';
+import RiotIdSheetView from './RiotIdSheetView';
 
 const RiotIdSheet = ({ isOpen, onClose, userToken }) => {
+  const [riotId, setRiotId] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  if (!isOpen || typeof document === 'undefined') return null;
+
   const handleLink = async () => {
-  const cleaned = riotId.trim();
+    const cleaned = riotId.trim();
 
-  if (!cleaned.includes('#')) {
-    alert("Định dạng đúng là Name#Tag");
-    return;
-  }
+    if (!cleaned.includes('#')) {
+      alert('Định dạng đúng là Name#Tag');
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  const result = await linkRiotAccount(cleaned, userToken);
+    const result = await linkRiotAccount(cleaned, userToken);
 
-  if (result.success) {
-    alert("Liên kết thành công!");
-    onClose();
+    if (result.success) {
+      alert('Liên kết thành công!');
+      onClose();
+      window.dispatchEvent(new Event('user_updated'));
+    } else {
+      alert(result.message || 'Lỗi liên kết');
+    }
 
-    // ✅ trigger update thay vì reload
-    window.dispatchEvent(new Event("user_updated"));
-  } else {
-    alert(result.message || "Lỗi liên kết");
-  }
+    setLoading(false);
+  };
 
-  setLoading(false);
-};
-
-  return (
-    <div className="fixed inset-0 z-[999] flex items-end justify-center bg-black/60">
-      <div className="absolute inset-0" onClick={onClose}></div>
-      <div className="relative w-full max-w-md rounded-t-[32px] bg-white p-6 shadow-2xl animate-in slide-in-from-bottom duration-300">
-        <div className="mx-auto mb-6 h-1.5 w-12 rounded-full bg-gray-300"></div>
-        <h2 className="mb-2 text-xl font-bold text-gray-900">Liên kết tài khoản Riot</h2>
-        
-        <input
-          type="text"
-          className="mb-8 w-full rounded-2xl bg-gray-100 p-4 text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Name#Tag"
-          value={riotId}
-          onChange={(e) => setRiotId(e.target.value)}
-        />
-
-        <div className="flex gap-3">
-          <button onClick={onClose} className="flex-1 rounded-2xl bg-gray-100 py-4 font-bold text-gray-600">
-            Để sau
-          </button>
-          <button onClick={handleLink} disabled={loading} className="flex-1 rounded-2xl bg-blue-600 py-4 font-bold text-white disabled:bg-blue-300">
-            {loading ? "Đang xử lý..." : "Kết nối"}
-          </button>
-        </div>
-      </div>
-    </div>
+  return createPortal(
+    <RiotIdSheetView
+      riotId={riotId}
+      loading={loading}
+      onClose={onClose}
+      onChangeRiotId={setRiotId}
+      onSubmit={handleLink}
+    />,
+    document.body
   );
 };
 

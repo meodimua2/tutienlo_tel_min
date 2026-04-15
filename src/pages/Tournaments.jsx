@@ -1,4 +1,5 @@
 import { Calendar, ChevronRight, Radio } from "lucide-react";
+import PageLayout from "../components/ui/PageLayout";
 
 const ITEMS = [
     { name: "Premier League", region: "Anh", state: "Đang diễn ra", count: 3, live: true },
@@ -9,7 +10,7 @@ const ITEMS = [
 
 export default function Tournaments() {
     return (
-        <div className="flex flex-col gap-4">
+        <PageLayout className="p-4">
 
             {/* LIST */}
             <div className="rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden">
@@ -71,6 +72,6 @@ export default function Tournaments() {
             <p className="text-center text-[11px] text-white/30">
                 Đang theo dõi {ITEMS.length} giải đấu
             </p>
-        </div>
+        </PageLayout>
     );
-}
+} 

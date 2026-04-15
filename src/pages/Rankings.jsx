@@ -1,9 +1,10 @@
 import { Medal, Crown, TrendingUp } from "lucide-react";
 import { RANKING_MOCK } from "../data/mockLive";
+import PageLayout from "../components/ui/PageLayout";
 
 export default function Rankings() {
     return (
-        <div className="flex flex-col gap-4">
+        <PageLayout className="p-4">
 
             {/* TABLE */}
             <div className="rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden">
@@ -92,6 +93,6 @@ export default function Rankings() {
             <p className="text-center text-[10px] text-white/30">
                 Cập nhật mỗi 10 phút
             </p>
-        </div>
+        </PageLayout>
     );
-}
+} 

@@ -1,5 +1,6 @@
 import { Settings, CreditCard, Shield, ChevronRight, LogOut, Award } from "lucide-react";
 import { useUser } from "../hooks/useUser";
+import PageLayout from "../components/ui/PageLayout";
 
 export default function Profile() {
     const { user, loading, error } = useUser();
@@ -14,9 +15,9 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <div className="p-6 text-center">
+            <PageLayout className="p-6 text-center">
                 <p className="text-sm text-white/50">{error || "Chưa đăng nhập"}</p>
-            </div>
+            </PageLayout>
         );
     }
 
@@ -27,7 +28,7 @@ export default function Profile() {
         `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
 
     return (
-        <div className="flex flex-col gap-5">
+        <PageLayout className="p-4">
 
             {/* USER CARD */}
             <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
@@ -80,7 +81,7 @@ export default function Profile() {
             <div className="text-center text-[11px] text-white/30">
                 v1.0 • Galaxy Game
             </div>
-        </div>
+        </PageLayout>
     );
 }
 

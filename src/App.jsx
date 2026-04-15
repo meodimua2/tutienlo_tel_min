@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
 import MainLayout from "./layouts/MainLayout";
@@ -24,10 +24,13 @@ function AnimatedRoutes() {
 
           <Route path="/tabs" element={<MainLayout />}>
             <Route index element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="home" element={<Navigate to="/tabs" replace />} />
             <Route path="giai-dau" element={<PageWrapper><Tournaments /></PageWrapper>} />
             <Route path="bxh" element={<PageWrapper><Rankings /></PageWrapper>} />
             <Route path="profile" element={<PageWrapper><Profile /></PageWrapper>} />
           </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
 
         </Routes>
     </Suspense>

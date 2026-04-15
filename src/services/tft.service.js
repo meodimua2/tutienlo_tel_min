@@ -1,4 +1,4 @@
-import { functions } from "./appwrite"; 
+import { functions } from "../lib/appwrite"; 
 
 export const linkRiotAccount = async (riotId, token) => {
     try {

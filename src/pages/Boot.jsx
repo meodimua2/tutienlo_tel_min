@@ -10,7 +10,7 @@ export default function Boot() {
         if (loading) return;
 
         if (user) {
-            navigate("/tabs/home", { replace: true });
+            navigate("/tabs", { replace: true });
         }
     }, [user, loading, navigate]);
 

@@ -20,7 +20,7 @@ export function useTeleAuth() {
             } else {
                 setError(res?.message || "Xác thực thất bại");
             }
-        } catch (err) {
+        } catch {
             setError("Lỗi hệ thống");
         } finally {
             setLoading(false);
