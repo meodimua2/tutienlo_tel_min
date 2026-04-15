@@ -51,7 +51,7 @@ export default function Boot() {
 
     return (
         <div className="flex h-[100dvh] items-center justify-center bg-slate-950 text-white">
-            <p className="text-xs tracking-[0.3em] text-white/40">Đang vào sân...</p>
+            <p className="text-xs tracking-[0.3em] text-white/40">Đang vào trận...</p>
         </div>
     );
 }

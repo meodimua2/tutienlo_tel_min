@@ -5,9 +5,7 @@ export default function AppContainer() {
         <div className="relative z-10 flex h-full flex-col w-full overflow-hidden">
             
             <div 
-                style={{ 
-                    height: "calc(var(--tg-safe-area-inset-top, 0px) + env(safe-area-inset-top, 0px) + 60px)",
-                }} 
+                style={{ height: "calc(var(--tg-safe-area-inset-top, 0px) + env(safe-area-inset-top, 0px) + 60px)" }} 
                 className="w-full shrink-0 pointer-events-none"
             />
 
@@ -16,6 +14,7 @@ export default function AppContainer() {
                     <Outlet />
                 </div>
             </main>
+            
         </div>
     );
 }

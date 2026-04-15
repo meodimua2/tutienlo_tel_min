@@ -18,7 +18,6 @@ export default function BottomNav() {
 
     return (
         <>
-            {/* Fade - Giữ nguyên nếu bạn muốn lớp phủ mờ phía dưới */}
             <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/70 to-transparent z-40" />
 
             <div
@@ -46,7 +45,6 @@ export default function BottomNav() {
                             >
                                 {({ isActive }) => (
                                     <>
-                                        {/* ICON - Không còn hiệu ứng bay hay phóng to */}
                                         <div className="flex items-center justify-center">
                                             <Icon
                                                 size={22}
@@ -59,7 +57,6 @@ export default function BottomNav() {
                                             />
                                         </div>
 
-                                        {/* TEXT - Trạng thái tĩnh */}
                                         <span className={`text-[10px] transition-colors duration-200 ${
                                             isActive ? "text-emerald-400 font-medium" : "text-zinc-400"
                                         }`}>
