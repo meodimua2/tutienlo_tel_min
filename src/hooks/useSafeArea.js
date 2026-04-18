@@ -7,7 +7,6 @@ export default function useSafeArea() {
     });
 
     useEffect(() => {
-        // Hàm này lấy giá trị safe area thực tế từ trình duyệt
         const getSafeArea = () => {
             const div = document.createElement('div');
             div.style.paddingTop = 'var(--safe-area-inset-top, env(safe-area-inset-top, 0px))';
@@ -26,7 +25,6 @@ export default function useSafeArea() {
         };
 
         getSafeArea();
-        // Safe area thực tế thường không đổi trừ khi xoay màn hình
         window.addEventListener("resize", getSafeArea);
         window.addEventListener("orientationchange", getSafeArea);
 

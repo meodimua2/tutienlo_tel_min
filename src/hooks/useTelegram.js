@@ -19,4 +19,6 @@ export default function useTelegram() {
 
         tgRef.current = webApp;
     }, []);
+
+    return tgRef.current;
 }

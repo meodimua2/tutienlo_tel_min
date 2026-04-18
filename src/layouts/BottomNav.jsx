@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { Home, CalendarDays, Trophy, User } from "lucide-react";
-import useSafeArea from "../../hooks/useSafeArea";
+import { FileText, History, BarChart, Settings } from "lucide-react";
+import useSafeArea from "../hooks/useSafeArea";
 
 export default function BottomNav() {
     const { bottom } = useSafeArea();
@@ -10,10 +10,9 @@ export default function BottomNav() {
     };
 
     const navItems = [
-        { path: "/tabs", label: "Trang chủ", icon: Home },
-        { path: "/tabs/giai-dau", label: "Giải đấu", icon: CalendarDays },
-        { path: "/tabs/bxh", label: "BXH", icon: Trophy },
-        { path: "/tabs/profile", label: "Cá nhân", icon: User },
+        { path: "/tabs", label: "Trang chủ", icon: FileText },
+        { path: "/tabs/giai-dau", label: "Lịch sử", icon: History },
+        { path: "/tabs/profile", label: "Cài đặt", icon: Settings },
     ];
 
     return (
@@ -21,13 +20,13 @@ export default function BottomNav() {
             <div className="pointer-events-none fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/70 to-transparent z-40" />
 
             <div
-                className="fixed left-1/2 -translate-x-1/2 z-50 w-full max-w-[420px] px-4"
+                className="fixed inset-x-0 left-1/2 z-50 w-full max-w-[640px] -translate-x-1/2 px-4 sm:px-6"
                 style={{
                     bottom: `calc(${bottom}px + env(safe-area-inset-bottom, 0px) + 12px)`
                 }}
             >
                 <nav className="flex items-center justify-between h-[64px] px-3 
-                    rounded-2xl 
+                    rounded-xl 
                     bg-white/5 backdrop-blur-2xl 
                     border border-white/10 
                     shadow-[0_8px_30px_rgba(0,0,0,0.6)]">

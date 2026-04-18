@@ -7,6 +7,13 @@ import './index.css'
 
 if (typeof window !== "undefined" && import.meta.env.DEV) {
   window.__VCONSOLE__ = new VConsole();
+  // Bring VConsole to the top
+  setTimeout(() => {
+    const vconsoleEl = document.querySelector('.vc-switch, .vc-panel');
+    if (vconsoleEl) {
+      vconsoleEl.style.zIndex = '2147483648'; // Higher than sheet
+    }
+  }, 1000);
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

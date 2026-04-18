@@ -6,8 +6,9 @@ import MainLayout from "./layouts/MainLayout";
 const Boot = lazy(() => import("./pages/Boot"));
 const Home = lazy(() => import("./pages/Home"));
 const Tournaments = lazy(() => import("./pages/Tournaments"));
-const Rankings = lazy(() => import("./pages/Rankings"));
 const Profile = lazy(() => import("./pages/Profile"));
+const Editor = lazy(() => import("./pages/Editor"));
+const Preview = lazy(() => import("./pages/Preview"));
 
 function PageWrapper({ children }) {
   return <>{children}</>;
@@ -24,10 +25,10 @@ function AnimatedRoutes() {
 
           <Route path="/tabs" element={<MainLayout />}>
             <Route index element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="home" element={<Navigate to="/tabs" replace />} />
             <Route path="giai-dau" element={<PageWrapper><Tournaments /></PageWrapper>} />
-            <Route path="bxh" element={<PageWrapper><Rankings /></PageWrapper>} />
             <Route path="profile" element={<PageWrapper><Profile /></PageWrapper>} />
+            <Route path="editor" element={<PageWrapper><Editor /></PageWrapper>} />
+            <Route path="preview" element={<PageWrapper><Preview /></PageWrapper>} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
